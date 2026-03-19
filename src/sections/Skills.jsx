@@ -1,37 +1,37 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 const skillsData = {
+  'Languages': [
+    { name: 'Python', pct: 90 },
+    { name: 'JavaScript', pct: 95 },
+    { name: 'TypeScript', pct: 85 },
+    { name: 'C++', pct: 80 },
+    { name: 'C', pct: 75 },
+  ],
   'Frontend': [
-    { name: 'React.js', pct: 88 },
+    { name: 'React.js', pct: 90 },
+    { name: 'Next.js', pct: 80 },
+    { name: 'Redux', pct: 75 },
     { name: 'HTML & CSS', pct: 95 },
-    { name: 'JavaScript', pct: 85 },
-    { name: 'Tailwind CSS', pct: 80 },
-    { name: 'TypeScript', pct: 70 },
-    { name: 'Next.js', pct: 72 },
+    { name: 'Tailwind CSS', pct: 90 },
   ],
   'Backend': [
-    { name: 'Node.js', pct: 75 },
-    { name: 'Express.js', pct: 73 },
-    { name: 'Python', pct: 82 },
-    { name: 'REST APIs', pct: 80 },
-    { name: 'MongoDB', pct: 70 },
-    { name: 'SQL', pct: 68 },
+    { name: 'Node.js', pct: 80 },
+    { name: 'Express.js', pct: 75 },
+    { name: 'REST APIs', pct: 85 },
+    { name: 'API Services', pct: 80 },
   ],
-  'AI / ML': [
-    { name: 'Machine Learning', pct: 75 },
-    { name: 'TensorFlow', pct: 65 },
-    { name: 'Scikit-learn', pct: 72 },
-    { name: 'Data Analysis', pct: 78 },
-    { name: 'NLP', pct: 62 },
-    { name: 'Computer Vision', pct: 60 },
+  'Databases & DevOps': [
+    { name: 'PostgreSQL', pct: 75 },
+    { name: 'MongoDB', pct: 80 },
+    { name: 'Firebase', pct: 70 },
+    { name: 'AWS & GCP', pct: 60 },
+    { name: 'Docker', pct: 65 },
   ],
   'Tools': [
     { name: 'Git & GitHub', pct: 90 },
-    { name: 'VS Code', pct: 95 },
-    { name: 'Figma', pct: 72 },
-    { name: 'Docker', pct: 58 },
-    { name: 'Linux', pct: 68 },
-    { name: 'Postman', pct: 80 },
+    { name: 'Linux', pct: 70 },
+    { name: 'CI/CD Basics', pct: 60 }
   ],
 };
 
@@ -71,7 +71,7 @@ const SkillCircle = ({ name, pct, animate }) => {
 };
 
 const Skills = () => {
-  const [activeTab, setActiveTab] = useState('Frontend');
+  const [activeTab, setActiveTab] = useState('Languages');
   const [animate, setAnimate] = useState(false);
   const sectionRef = useRef(null);
 

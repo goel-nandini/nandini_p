@@ -1,54 +1,23 @@
 import React, { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 
 const projects = [
   {
-    emoji: '🏆',
-    title: 'Smart India Hackathon — AI Portal',
-    desc: 'Award-winning national hackathon project. Built a government grievance AI system with NLP-based auto-routing and real-time dashboards.',
-    tech: ['React', 'Node.js', 'Python', 'NLP', 'MongoDB'],
+    emoji: '🗺️',
+    title: 'Mentor Map',
+    desc: 'Built responsive and accessible UI components with TailwindCSS, dynamically converting Figma designs into pixel-perfect web interfaces. Implemented React-based dashboards and user flows for mentor discovery, integrated with REST APIs for real-time mentor recommendations.',
+    tech: ['React', 'TypeScript', 'TailwindCSS', 'REST APIs'],
     live: '#',
     github: 'https://github.com/goel-nandini',
   },
   {
-    emoji: '🤖',
-    title: 'AI Study Assistant',
-    desc: 'An intelligent chatbot that generates quizzes, summaries, and flashcards from uploaded PDFs using OpenAI API.',
-    tech: ['React', 'OpenAI', 'Flask', 'TailwindCSS'],
+    emoji: '🚀',
+    title: 'TES-4.0',
+    desc: 'Developed and deployed TES v4, a responsive web application using modern frontend technologies and hosted on Vercel. Implemented clean UI design and optimized user experience with efficient component structure and responsive layout.',
+    tech: ['React', 'JavaScript', 'TailwindCSS', 'Vercel'],
     live: '#',
     github: 'https://github.com/goel-nandini',
-  },
-  {
-    emoji: '🛒',
-    title: 'EcoShop — Sustainable Marketplace',
-    desc: 'Full-stack e-commerce platform for eco-friendly products with cart, wishlist, order tracking, and payment integration.',
-    tech: ['Next.js', 'MongoDB', 'Stripe', 'Redux'],
-    live: '#',
-    github: 'https://github.com/goel-nandini',
-  },
-  {
-    emoji: '💬',
-    title: 'Real-time Chat App',
-    desc: 'WhatsApp-style chat app with rooms, emoji reactions, file sharing, and end-to-end encryption using Socket.io.',
-    tech: ['React', 'Socket.io', 'Node.js', 'Express'],
-    live: '#',
-    github: 'https://github.com/goel-nandini',
-  },
-  {
-    emoji: '📊',
-    title: 'Data Visualizer Dashboard',
-    desc: 'Interactive dashboard for uploading CSV/Excel files and generating beautiful charts with filters and export options.',
-    tech: ['React', 'D3.js', 'Python', 'FastAPI'],
-    live: '#',
-    github: 'https://github.com/goel-nandini',
-  },
-  {
-    emoji: '🎨',
-    title: 'Portfolio Generator',
-    desc: 'A drag-and-drop portfolio builder that lets developers generate their own custom portfolio sites and deploy with one click.',
-    tech: ['React', 'Vite', 'Netlify API', 'localStorage'],
-    live: '#',
-    github: 'https://github.com/goel-nandini',
-  },
+  }
 ];
 
 const ProjectCard = ({ project, idx }) => {

@@ -1,135 +1,182 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { MdWork, MdSchool, MdEmojiEvents, MdWorkspacePremium } from 'react-icons/md';
 
 const experiences = [
   {
-    year: '2024 — Present',
-    role: 'Smart India Hackathon Winner 🏆',
-    org: 'Government of India',
-    desc: 'Led a team of 6 to build an AI-powered solution that won first place at Smart India Hackathon 2024. Solved a real government problem using NLP and React.',
-  },
-  {
-    year: '2023 — 2024',
-    role: 'Full Stack Developer Intern',
-    org: 'Tech Startup (Remote)',
-    desc: 'Built responsive web dashboards using React and Node.js. Integrated REST APIs and improved UI performance by 40%.',
-  },
-  {
-    year: '2023',
-    role: 'Open Source Contributor',
-    org: 'GitHub community',
-    desc: 'Contributed to open source projects during Hacktoberfest, submitted 10+ merged PRs across React and Python projects.',
-  },
+    year: 'Oct 2025 — Dec 2025',
+    role: 'Front-end Intern',
+    org: 'E-Cell ABESEC',
+    desc: 'Enhanced the official E-Cell website by implementing new features and optimising site performance, resulting in a 75% improvement in page load times and increased user engagement, while ensuring intuitive navigation.',
+    icon: <MdWork size={24} />
+  }
 ];
 
 const education = [
   {
-    year: '2022 — 2026',
-    role: 'B.Tech in Computer Science',
-    org: 'VIT Bhopal University',
-    desc: 'Specialization in AI & Machine Learning. CGPA: 8.5/10. Core cs, DSA, OS, DBMS.',
+    year: '2023 — 2027',
+    role: 'B.Tech CS - AIML',
+    org: 'ABES Engineering College',
+    desc: 'Cumulative Grade Point Average: 8.0 CGPA. Location: Ghaziabad, India.',
+    icon: <MdSchool size={24} />
   },
   {
-    year: '2020 — 2022',
-    role: 'Higher Secondary (PCM + CS)',
-    org: 'Delhi Public School',
-    desc: 'Scored 95.4% in 12th boards. School topper in Computer Science.',
+    year: '2022 — 2023',
+    role: 'Senior Secondary',
+    org: 'Silver Bells Public School',
+    desc: 'Location: Shamli, India.',
+    icon: <MdSchool size={24} />
   },
 ];
 
-const TimelineItem = ({ item, idx }) => {
-  const itemRef = useRef(null);
+const achievements = [
+  {
+    year: '2024',
+    role: 'Winner',
+    org: 'Smart India Hackathon 2024',
+    desc: 'National-level hackathon (385+ entries) organized by the Ministry of Education, Govt. of India.',
+    icon: <MdEmojiEvents size={24} />
+  },
+  {
+    year: '2024',
+    role: 'Runner-up',
+    org: 'ABES Engineering College Hackathon',
+    desc: 'Secured 2nd out of 100+ teams in a HACK-O-VERSE ABESEC hackathon.',
+    icon: <MdEmojiEvents size={24} />
+  },
+  {
+    year: '2024',
+    role: 'Top-20',
+    org: 'HCL-GUVI Hackathon',
+    desc: 'Among top 20 teams out of 450+ teams in a college hackathon.',
+    icon: <MdEmojiEvents size={24} />
+  },
+  {
+    year: 'Achievement',
+    role: 'Certified Cloud Practitioner',
+    org: 'Udemy',
+    desc: 'Developed practical expertise in cloud infrastructure, virtualization, and scalability principles.',
+    icon: <MdWorkspacePremium size={24} />
+  }
+];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting) {
-          entries[0].target.classList.add('visible');
-        }
-      },
-      { threshold: 0.25 }
-    );
-    if (itemRef.current) observer.observe(itemRef.current);
-    return () => observer.disconnect();
-  }, []);
-
+const TimelineCard = ({ item, idx }) => {
   return (
-    <div className="timeline-item" ref={itemRef} style={{ transitionDelay: `${idx * 0.1}s` }}>
-      <div className="timeline-dot" />
-      <div className="glass-card" style={{ padding: '1.25rem 1.5rem' }}>
-        <div className="timeline-year">{item.year}</div>
-        <div className="timeline-role">{item.role}</div>
-        <div className="timeline-org">📍 {item.org}</div>
-        <div className="timeline-desc">{item.desc}</div>
+    <motion.div 
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: idx * 0.1 }}
+      className="relative pl-12 md:pl-0"
+      style={{ marginBottom: '2.5rem' }}
+    >
+      <div className="absolute left-4 top-10 bottom-[-2.5rem] w-0.5 bg-gradient-to-b from-[var(--grad-start)] to-transparent md:hidden" />
+      
+      <div 
+        className="absolute left-0 top-0 w-10 h-10 rounded-full flex items-center justify-center text-white md:hidden"
+        style={{ background: 'var(--gradient)', boxShadow: '0 0 15px rgba(108, 99, 255, 0.4)' }}
+      >
+        {item.icon}
       </div>
-    </div>
+
+      <motion.div 
+        whileHover={{ y: -5, scale: 1.02 }}
+        className="glass-card overflow-hidden relative group"
+        style={{ padding: '1.5rem', borderLeft: '3px solid var(--accent)' }}
+      >
+        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+          {item.icon}
+        </div>
+        
+        <span style={{ 
+          display: 'inline-block',
+          padding: '0.2rem 0.8rem', 
+          borderRadius: '50px',
+          background: 'rgba(108, 99, 255, 0.1)',
+          color: 'var(--grad-start)',
+          fontSize: 'var(--fs-small)',
+          fontWeight: 700,
+          marginBottom: '0.75rem'
+        }}>
+          {item.year}
+        </span>
+        
+        <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
+          {item.role}
+        </h4>
+        <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem', fontStyle: 'italic' }}>
+          📍 {item.org}
+        </div>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
+          {item.desc}
+        </p>
+      </motion.div>
+    </motion.div>
   );
 };
 
 const Experience = () => {
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.querySelectorAll('.fade-in-up').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 150);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section className="section" id="experience" ref={sectionRef}
-      style={{ background: 'rgba(108,99,255,0.03)' }}
-    >
-      <div className="fade-in-up">
+    <section className="section" id="experience" style={{ background: 'var(--bg-card)', position: 'relative' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
         <p className="section-tag">— My Journey</p>
-        <h2 className="section-title">Experience & Education</h2>
+        <h2 className="section-title">Timeline & Achievements</h2>
         <div className="section-divider" />
-      </div>
+      </motion.div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
-        {/* Experience */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', marginTop: '3rem' }}>
+        
+        {/* Experience Column */}
         <div>
-          <h3 className="fade-in-up" style={{
-            fontSize: 'var(--fs-sub)', fontWeight: 700, marginBottom: '2rem',
-            color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem'
-          }}>
-            💼 Experience
-          </h3>
-          <div className="timeline">
-            {experiences.map((item, i) => <TimelineItem key={i} item={item} idx={i} />)}
+          <motion.h3 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
+          >
+            <span style={{ color: 'var(--accent)' }}><MdWork /></span> Experience
+          </motion.h3>
+          <div className="md:pl-4 md:border-l-2 md:border-[var(--border)]">
+            {experiences.map((item, i) => <TimelineCard key={i} item={item} idx={i} />)}
           </div>
         </div>
 
-        {/* Education */}
+        {/* Education Column */}
         <div>
-          <h3 className="fade-in-up" style={{
-            fontSize: 'var(--fs-sub)', fontWeight: 700, marginBottom: '2rem',
-            color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem'
-          }}>
-            🎓 Education
-          </h3>
-          <div className="timeline">
-            {education.map((item, i) => <TimelineItem key={i} item={item} idx={i} />)}
+          <motion.h3 
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
+          >
+            <span style={{ color: 'var(--grad-end)' }}><MdSchool /></span> Education
+          </motion.h3>
+          <div className="md:pl-4 md:border-l-2 md:border-[var(--border)]">
+            {education.map((item, i) => <TimelineCard key={i} item={item} idx={i} />)}
           </div>
         </div>
-      </div>
 
-      {/* Responsive for mobile */}
-      <style>{`
-        @media (max-width: 768px) {
-          #experience .section > div:last-child,
-          #experience > div[style] { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
+        {/* Achievements Column */}
+        <div>
+          <motion.h3 
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
+          >
+            <span style={{ color: '#FFD700' }}><MdEmojiEvents /></span> Trophies
+          </motion.h3>
+          <div className="md:pl-4 md:border-l-2 md:border-[var(--border)]">
+            {achievements.map((item, i) => <TimelineCard key={i} item={item} idx={i} />)}
+          </div>
+        </div>
+
+      </div>
     </section>
   );
 };
