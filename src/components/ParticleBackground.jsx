@@ -1,50 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 
 const ParticleBackground = () => {
-  const [particles, setParticles] = useState([]);
+  const [init, setInit] = useState(false);
 
   useEffect(() => {
-    const generateParticles = () => {
-      return Array.from({ length: 40 }).map((_, i) => ({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 4 + 1,
-        duration: Math.random() * 20 + 10,
-        delay: Math.random() * 5,
-        opacity: Math.random() * 0.5 + 0.1,
-      }));
-    };
-    setParticles(generateParticles());
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
   }, []);
 
+  if (!init) return <div className="absolute inset-0 bg-transparent -z-10" />;
+
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute bg-primary rounded-full shadow-[0_0_15px_#00ffcc]"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
-          }}
-          animate={{
-            y: ['0vh', '-100vh'],
-            x: ['0vw', `${Math.random() * 20 - 10}vw`],
-            opacity: [0, p.opacity, 0],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: "linear"
-          }}
-        />
-      ))}
-    </div>
+    <Particles
+      id={`tsparticles-${Math.random().toString(36).substr(2, 9)}`}
+      className="absolute inset-0 z-0 pointer-events-none"
+      options={{
+        background: { color: { value: "transparent" } },
+        fpsLimit: 60,
+        particles: {
+          color: { value: "#00ffcc" },
+          links: {
+            color: "#00ffcc",
+            distance: 120,
+            enable: true,
+            opacity: 0.2,
+            width: 1,
+          },
+          move: {
+            direction: "none",
+            enable: true,
+            outModes: { default: "bounce" },
+            random: false,
+            speed: 1.5,
+            straight: false,
+          },
+          number: {
+            density: { enable: true, area: 800 },
+            value: 40,
+          },
+          opacity: { value: 0.3 },
+          shape: { type: "circle" },
+          size: { value: { min: 1, max: 3 } },
+        },
+        detectRetina: true,
+      }}
+    />
   );
 };
 

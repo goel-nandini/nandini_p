@@ -6,9 +6,9 @@ const Button = ({ children, variant = 'primary', className, onClick, ...props })
   const baseStyles = 'relative inline-flex items-center justify-center px-8 py-3 font-semibold overflow-hidden group rounded-lg transition-all duration-300';
   
   const variants = {
-    primary: 'bg-primary text-black hover:bg-white hover:text-black hover:shadow-[0_0_20px_rgba(0,255,204,0.6)]',
-    outline: 'border-2 border-primary text-primary hover:bg-primary/10',
-    ghost: 'text-gray-300 hover:text-primary hover:bg-glass',
+    primary: 'bg-primary text-black hover:bg-white hover:text-black hover:shadow-[0_0_25px_rgba(0,255,204,0.8)] shadow-[0_0_10px_rgba(0,255,204,0.3)]',
+    outline: 'border-2 border-primary text-primary hover:bg-primary/10 hover:shadow-[0_0_15px_rgba(0,255,204,0.5)]',
+    ghost: 'text-gray-300 hover:text-primary hover:bg-glass hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:border-primary/50 text-glow-hover',
   };
 
   return (

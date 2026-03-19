@@ -1,109 +1,137 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import SectionWrapper from '../components/SectionWrapper';
-import AnimatedHeading from '../components/AnimatedHeading';
-import GlassCard from '../components/GlassCard';
+import React, { useEffect, useRef, useState } from 'react';
 
-const skillCategories = [
-  {
-    title: "Programming Languages",
-    skills: [
-      { name: "Python", level: 90 },
-      { name: "JavaScript", level: 85 },
-      { name: "TypeScript", level: 80 },
-      { name: "C", level: 75 },
-      { name: "C++", level: 70 },
-    ]
-  },
-  {
-    title: "Frontend",
-    skills: [
-      { name: "React.js", level: 90 },
-      { name: "HTML", level: 95 },
-      { name: "CSS", level: 90 },
-      { name: "TailwindCSS", level: 85 },
-    ]
-  },
-  {
-    title: "Backend",
-    skills: [
-      { name: "Node.js", level: 85 },
-      { name: "Express.js", level: 80 },
-      { name: "REST APIs", level: 85 },
-      { name: "JWT", level: 75 },
-    ]
-  },
-  {
-    title: "Databases",
-    skills: [
-      { name: "PostgreSQL", level: 80 },
-      { name: "MongoDB", level: 85 },
-      { name: "Firebase", level: 75 },
-    ]
-  },
-  {
-    title: "Cloud & DevOps",
-    skills: [
-      { name: "AWS", level: 70 },
-      { name: "GCP", level: 65 },
-      { name: "Docker", level: 70 },
-      { name: "Linux", level: 80 },
-      { name: "CI/CD basics", level: 65 },
-    ]
-  }
-];
+const skillsData = {
+  'Frontend': [
+    { name: 'React.js', pct: 88 },
+    { name: 'HTML & CSS', pct: 95 },
+    { name: 'JavaScript', pct: 85 },
+    { name: 'Tailwind CSS', pct: 80 },
+    { name: 'TypeScript', pct: 70 },
+    { name: 'Next.js', pct: 72 },
+  ],
+  'Backend': [
+    { name: 'Node.js', pct: 75 },
+    { name: 'Express.js', pct: 73 },
+    { name: 'Python', pct: 82 },
+    { name: 'REST APIs', pct: 80 },
+    { name: 'MongoDB', pct: 70 },
+    { name: 'SQL', pct: 68 },
+  ],
+  'AI / ML': [
+    { name: 'Machine Learning', pct: 75 },
+    { name: 'TensorFlow', pct: 65 },
+    { name: 'Scikit-learn', pct: 72 },
+    { name: 'Data Analysis', pct: 78 },
+    { name: 'NLP', pct: 62 },
+    { name: 'Computer Vision', pct: 60 },
+  ],
+  'Tools': [
+    { name: 'Git & GitHub', pct: 90 },
+    { name: 'VS Code', pct: 95 },
+    { name: 'Figma', pct: 72 },
+    { name: 'Docker', pct: 58 },
+    { name: 'Linux', pct: 68 },
+    { name: 'Postman', pct: 80 },
+  ],
+};
 
-const SkillBar = ({ name, level }) => {
+const CIRCUMFERENCE = 2 * Math.PI * 40; // r=40
+
+const SkillCircle = ({ name, pct, animate }) => {
+  const offset = CIRCUMFERENCE - (pct / 100) * CIRCUMFERENCE;
+  const gradId = `grad-${name.replace(/[^a-z0-9]/gi, '')}`;
+
   return (
-    <div className="mb-4">
-      <div className="flex justify-between mb-1">
-        <span className="text-gray-300 font-medium text-sm">{name}</span>
-        <span className="text-primary font-mono text-xs">{level}%</span>
+    <div className="skill-item">
+      <div className="skill-circle-wrap">
+        <svg className="skill-circle-svg" viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="var(--grad-start)" />
+              <stop offset="100%" stopColor="var(--grad-end)" />
+            </linearGradient>
+          </defs>
+          <circle className="skill-circle-bg" cx="50" cy="50" r="40" />
+          <circle
+            className="skill-circle-prog"
+            cx="50" cy="50" r="40"
+            stroke={`url(#${gradId})`}
+            style={{
+              strokeDasharray: CIRCUMFERENCE,
+              strokeDashoffset: animate ? offset : CIRCUMFERENCE,
+              transition: 'stroke-dashoffset 1.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            }}
+          />
+        </svg>
+        <div className="skill-percent">{pct}%</div>
       </div>
-      <div className="w-full bg-gray-800 rounded-full h-2 overflow-hidden border border-glassBorder">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${level}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-          className="bg-gradient-to-r from-primary to-secondary h-2 rounded-full relative"
-        >
-          {/* Subtle moving glow effect on the bar */}
-          <div className="absolute top-0 right-0 w-4 h-full bg-white/50 blur-[4px]" />
-        </motion.div>
-      </div>
+      <span className="skill-name">{name}</span>
     </div>
   );
 };
 
 const Skills = () => {
+  const [activeTab, setActiveTab] = useState('Frontend');
+  const [animate, setAnimate] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          setAnimate(true);
+          entries[0].target.querySelectorAll('.fade-in-up').forEach((el, i) => {
+            setTimeout(() => el.classList.add('visible'), i * 100);
+          });
+        }
+      },
+      { threshold: 0.2 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // Re-trigger animation on tab change
+  useEffect(() => {
+    setAnimate(false);
+    const t = setTimeout(() => setAnimate(true), 100);
+    return () => clearTimeout(t);
+  }, [activeTab]);
+
   return (
-    <SectionWrapper id="skills">
-      <AnimatedHeading subtitle="What I do" title="My Skills" />
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-        {skillCategories.map((category, idx) => (
-          <motion.div
-            key={category.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: idx * 0.1 }}
+    <section
+      className="section"
+      id="skills"
+      ref={sectionRef}
+      style={{ background: 'var(--bg)' }}
+    >
+      <div className="fade-in-up">
+        <p className="section-tag">— My Skills</p>
+        <h2 className="section-title">Technical Arsenal</h2>
+        <div className="section-divider" />
+      </div>
+
+      {/* Tabs */}
+      <div className="skills-tabs fade-in-up">
+        {Object.keys(skillsData).map(tab => (
+          <button
+            key={tab}
+            id={`skills-tab-${tab.toLowerCase().replace(/[^a-z]/g, '')}`}
+            className={`skill-tab${activeTab === tab ? ' active' : ''}`}
+            onClick={() => setActiveTab(tab)}
           >
-            <GlassCard className="h-full">
-              <h3 className="text-xl font-bold mb-6 text-white tracking-wide border-b border-glassBorder pb-2">
-                {category.title}
-              </h3>
-              <div className="flex flex-col space-y-4">
-                {category.skills.map(skill => (
-                  <SkillBar key={skill.name} name={skill.name} level={skill.level} />
-                ))}
-              </div>
-            </GlassCard>
-          </motion.div>
+            {tab}
+          </button>
         ))}
       </div>
-    </SectionWrapper>
+
+      {/* Grid */}
+      <div className="skills-grid fade-in-up">
+        {skillsData[activeTab].map(skill => (
+          <SkillCircle key={skill.name} {...skill} animate={animate} />
+        ))}
+      </div>
+    </section>
   );
 };
 

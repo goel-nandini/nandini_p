@@ -1,8 +1,16 @@
 import { motion } from 'framer-motion';
 
 const defaultVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+  hidden: { opacity: 0, y: 80, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1, 
+    transition: { 
+      duration: 0.8, 
+      ease: [0.16, 1, 0.3, 1] // Custom refined spring-like easing 
+    } 
+  },
 };
 
 const SectionWrapper = ({ id, children, className = '' }) => {

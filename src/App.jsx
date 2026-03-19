@@ -1,56 +1,61 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import ScrollProgress from './components/ScrollProgress';
-import CursorGlow from './components/CursorGlow';
-import SectionWrapper from './components/SectionWrapper';
-import AnimatedHeading from './components/AnimatedHeading';
-import GlassCard from './components/GlassCard';
-import Button from './components/Button';
+import CustomCursor from './components/CustomCursor';
 import LandingPage from './components/LandingPage';
+import LoadingScreen from './components/LoadingScreen';
 import Hero from './sections/Hero';
 import About from './sections/About';
 import Skills from './sections/Skills';
+import Experience from './sections/Experience';
 import Projects from './sections/Projects';
-import Achievements from './sections/Achievements';
 import Contact from './sections/Contact';
 import Footer from './components/Footer';
 
 function App() {
-  const [hasEntered, setHasEntered] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [entered, setEntered] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('portfolio-theme') || 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('portfolio-theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
+  if (loading) return <LoadingScreen />;
 
   return (
-    <div className="animated-bg min-h-screen relative text-white antialiased selection:bg-primary selection:text-black">
-      <CursorGlow />
+    <div style={{ background: 'var(--bg)', minHeight: '100vh', position: 'relative' }}>
+      <CustomCursor />
       <ScrollProgress />
-      
-      <AnimatePresence mode="wait">
-        {!hasEntered ? (
-          <LandingPage key="landing" onEnter={() => setHasEntered(true)} />
-        ) : (
-          <motion.div
-            key="portfolio"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="w-full relative min-h-screen"
-          >
-            <Navbar />
 
-            <main className="relative z-10 pt-20">
-              <Hero />
-
-              <About />
-              <Skills />
-              <Experience />
-              <Projects />
-              <Achievements />
-              <Contact />
-            </main>
-            <Footer />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {!entered ? (
+        <LandingPage onEnter={() => setEntered(true)} />
+      ) : (
+        <div>
+          <Navbar theme={theme} toggleTheme={toggleTheme} />
+          <main>
+            <Hero />
+            <About />
+            <Skills />
+            <Experience />
+            <Projects />
+            <Contact />
+          </main>
+          <Footer />
+        </div>
+      )}
     </div>
   );
 }

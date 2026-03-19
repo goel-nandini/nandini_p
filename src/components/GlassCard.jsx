@@ -58,7 +58,8 @@ const GlassCard = ({ children, className, hoverEffect = true, ...props }) => {
         className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 z-0"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(0,255,204,0.1), transparent 40%)`,
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(0,255,204,0.15), transparent 40%),
+                       radial-gradient(400px circle at ${position.x + 10}px ${position.y - 10}px, rgba(255,0,255,0.05), transparent 30%)`,
         }}
       />
       

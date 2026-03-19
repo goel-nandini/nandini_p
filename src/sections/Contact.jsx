@@ -1,97 +1,170 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
-import SectionWrapper from '../components/SectionWrapper';
-import AnimatedHeading from '../components/AnimatedHeading';
-import GlassCard from '../components/GlassCard';
-import Button from '../components/Button';
+import React, { useRef, useEffect, useState } from 'react';
+
+const socials = [
+  { icon: '🐙', label: 'GitHub', href: 'https://github.com/goel-nandini' },
+  { icon: '💼', label: 'LinkedIn', href: '#' },
+  { icon: '🐦', label: 'Twitter', href: '#' },
+  { icon: '📧', label: 'Email', href: 'mailto:nandini@email.com' },
+];
 
 const Contact = () => {
+  const sectionRef = useRef(null);
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.querySelectorAll('.fade-in-up').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 150);
+            });
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const handleChange = e => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    setSent(true);
+    setTimeout(() => setSent(false), 3500);
+    setForm({ name: '', email: '', message: '' });
+  };
+
   return (
-    <SectionWrapper id="contact" className="min-h-0 py-24 object-cover">
-      <AnimatedHeading subtitle="Get in touch" title="Contact Me" />
-      
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-8 lg:gap-12">
-        {/* Contact Form */}
-        <motion.div 
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="w-full md:w-2/3"
-        >
-          <GlassCard className="h-full">
-            <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="name" className="text-sm font-medium text-gray-300">Name</label>
-                <input 
-                  type="text" 
-                  id="name"
-                  placeholder="John Doe"
-                  className="bg-transparent border border-glassBorder rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors hover:border-white/30" 
-                />
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label htmlFor="email" className="text-sm font-medium text-gray-300">Email</label>
-                <input 
-                  type="email" 
-                  id="email"
-                  placeholder="john@example.com"
-                  className="bg-transparent border border-glassBorder rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors hover:border-white/30" 
-                />
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="text-sm font-medium text-gray-300">Message</label>
-                <textarea 
-                  id="message"
-                  rows={5}
-                  placeholder="Say hello!"
-                  className="bg-transparent border border-glassBorder rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors hover:border-white/30 resize-none" 
-                />
-              </div>
-
-              <Button variant="primary" className="w-full mt-2">Send Message</Button>
-            </form>
-          </GlassCard>
-        </motion.div>
-
-        {/* Social Links & Info */}
-        <motion.div 
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="w-full md:w-1/3 flex flex-col gap-6"
-        >
-          <GlassCard className="h-full flex flex-col justify-center gap-8 py-10">
-            <h3 className="text-2xl font-bold text-white mb-2 text-center md:text-left">Let's Connect</h3>
-            
-            <a href="https://github.com/nandini" target="_blank" rel="noreferrer" className="flex items-center gap-4 text-gray-300 hover:text-white group">
-              <div className="w-12 h-12 rounded-full border border-glassBorder flex items-center justify-center group-hover:bg-primary group-hover:border-primary group-hover:text-black transition-all duration-300 shadow-none group-hover:shadow-[0_0_15px_rgba(0,255,204,0.6)]">
-                <FiGithub className="w-5 h-5" />
-              </div>
-              <span className="text-lg font-medium group-hover:text-primary transition-colors">GitHub</span>
-            </a>
-
-            <a href="https://linkedin.com/in/nandini" target="_blank" rel="noreferrer" className="flex items-center gap-4 text-gray-300 hover:text-white group">
-              <div className="w-12 h-12 rounded-full border border-glassBorder flex items-center justify-center group-hover:bg-[#0077b5] group-hover:border-[#0077b5] group-hover:text-white transition-all duration-300 shadow-none group-hover:shadow-[0_0_15px_rgba(0,119,181,0.6)]">
-                <FiLinkedin className="w-5 h-5" />
-              </div>
-              <span className="text-lg font-medium group-hover:text-[#0077b5] transition-colors">LinkedIn</span>
-            </a>
-
-            <a href="mailto:nandini@example.com" className="flex items-center gap-4 text-gray-300 hover:text-white group">
-              <div className="w-12 h-12 rounded-full border border-glassBorder flex items-center justify-center group-hover:bg-secondary group-hover:border-secondary group-hover:text-white transition-all duration-300 shadow-none group-hover:shadow-[0_0_15px_rgba(255,0,255,0.6)]">
-                <FiMail className="w-5 h-5" />
-              </div>
-              <span className="text-lg font-medium group-hover:text-secondary transition-colors">Email</span>
-            </a>
-          </GlassCard>
-        </motion.div>
+    <section className="section" id="contact" ref={sectionRef}
+      style={{ background: 'rgba(108,99,255,0.03)' }}
+    >
+      <div className="fade-in-up">
+        <p className="section-tag">— Get In Touch</p>
+        <h2 className="section-title">Contact Me</h2>
+        <div className="section-divider" />
       </div>
-    </SectionWrapper>
+
+      <div className="contact-wrap">
+        {/* Left */}
+        <div className="contact-info fade-in-up">
+          <h3>Let's work together!</h3>
+          <p>
+            Whether you have a project in mind, an opportunity to discuss, or just want to say hi — my inbox is always open. I'll do my best to respond!
+          </p>
+
+          {/* Socials */}
+          <div className="social-links">
+            {socials.map(s => (
+              <a
+                key={s.label}
+                href={s.href}
+                className="social-link"
+                id={`social-${s.label.toLowerCase()}`}
+                target={s.href.startsWith('http') ? '_blank' : '_self'}
+                rel="noopener noreferrer"
+                title={s.label}
+              >
+                {s.icon}
+              </a>
+            ))}
+          </div>
+
+          {/* Contact info pills */}
+          <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            {[
+              { icon: '📧', text: 'nandini@email.com' },
+              { icon: '📍', text: 'India' },
+              { icon: '⏰', text: 'Available for freelance & internships' },
+            ].map(item => (
+              <div key={item.text} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
+                <span style={{ fontSize: 'var(--fs-small)', color: 'var(--text-secondary)', fontFamily: 'var(--font-secondary)' }}>
+                  {item.text}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right — Form */}
+        <div className="glass-card fade-in-up" style={{ padding: '2.5rem' }}>
+          {sent && (
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(108,99,255,0.2), rgba(0,212,255,0.1))',
+              border: '1px solid var(--grad-start)',
+              borderRadius: 12, padding: '1rem',
+              marginBottom: '1.5rem',
+              color: 'var(--grad-end)',
+              fontFamily: 'var(--font-secondary)',
+              fontSize: 'var(--fs-small)',
+              fontWeight: 600,
+              textAlign: 'center'
+            }}>
+              ✅ Message sent! I'll get back to you soon.
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            {/* Name */}
+            <div className="form-group">
+              <input
+                type="text"
+                id="contact-name"
+                name="name"
+                placeholder=" "
+                value={form.name}
+                onChange={handleChange}
+                required
+                autoComplete="off"
+              />
+              <label htmlFor="contact-name">Your Name</label>
+            </div>
+
+            {/* Email */}
+            <div className="form-group">
+              <input
+                type="email"
+                id="contact-email"
+                name="email"
+                placeholder=" "
+                value={form.email}
+                onChange={handleChange}
+                required
+              />
+              <label htmlFor="contact-email">Email Address</label>
+            </div>
+
+            {/* Message */}
+            <div className="form-group">
+              <textarea
+                id="contact-message"
+                name="message"
+                placeholder=" "
+                value={form.message}
+                onChange={handleChange}
+                required
+              />
+              <label htmlFor="contact-message">Your Message</label>
+            </div>
+
+            <button
+              type="submit"
+              id="contact-send-btn"
+              className="btn btn-primary"
+              style={{ width: '100%', fontSize: 'var(--fs-body)' }}
+            >
+              Send Message ✦
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
   );
 };
 

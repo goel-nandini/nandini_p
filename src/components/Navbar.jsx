@@ -1,99 +1,77 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { HiMenu, HiX } from 'react-icons/hi';
-import clsx from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import React, { useState } from 'react';
 
 const navLinks = [
-  { name: 'About', path: '#about' },
-  { name: 'Experience', path: '#experience' },
-  { name: 'Projects', path: '#projects' },
-  { name: 'Contact', path: '#contact' },
+  { label: 'Home', href: '#home' },
+  { label: 'About', href: '#about' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Contact', href: '#contact' },
 ];
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+const Navbar = ({ theme, toggleTheme }) => {
+  const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const handleLink = (e, href) => {
+    e.preventDefault();
+    setOpen(false);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <nav
-      className={twMerge(
-        'fixed top-0 w-full z-40 transition-all duration-300',
-        scrolled ? 'glass-panel py-4' : 'bg-transparent py-6'
-      )}
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-2xl font-bold tracking-tighter"
-        >
-          <span className="text-white">dev.</span>
-          <span className="text-primary glow-text">portfolio</span>
-        </motion.div>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:flex gap-8">
-          {navLinks.map((link, index) => (
-            <motion.a
-              key={link.name}
-              href={link.path}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="text-gray-300 hover:text-primary transition-colors text-sm font-medium tracking-wide relative group"
-            >
-              {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full" />
-            </motion.a>
-          ))}
-        </div>
-
-        {/* Mobile Menu Toggle */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="text-gray-300 hover:text-white transition"
-          >
-            {isOpen ? <HiX size={28} /> : <HiMenu size={28} />}
-          </button>
-        </div>
+    <nav className="navbar">
+      {/* Logo */}
+      <div className="navbar-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        NG.
       </div>
 
-      {/* Mobile Menu Content */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass-panel border-t border-glassBorder mt-4"
-          >
-            <div className="flex flex-col items-center py-6 gap-6">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className="text-gray-300 hover:text-primary transition-colors text-lg"
-                >
-                  {link.name}
-                </a>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Links */}
+      <ul className={`navbar-links${open ? ' open' : ''}`}>
+        {navLinks.map(link => (
+          <li key={link.href}>
+            <a href={link.href} onClick={(e) => handleLink(e, link.href)}>
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {/* Actions */}
+      <div className="navbar-actions">
+        {/* Theme toggle */}
+        <button
+          id="theme-toggle-btn"
+          className="theme-toggle"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+        >
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
+
+        {/* Resume button - desktop */}
+        <a
+          href="#"
+          className="btn btn-primary"
+          style={{ display: 'none', fontSize: '13px', padding: '0.5rem 1.2rem' }}
+          id="desktop-resume-btn"
+          onClick={e => e.preventDefault()}
+        >
+          Resume
+        </a>
+
+        {/* Hamburger */}
+        <button
+          className="hamburger"
+          id="hamburger-btn"
+          onClick={() => setOpen(p => !p)}
+          aria-label="Open menu"
+        >
+          <span style={{ transform: open ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
+          <span style={{ opacity: open ? 0 : 1 }} />
+          <span style={{ transform: open ? 'rotate(-45deg) translate(5px,-5px)' : 'none' }} />
+        </button>
+      </div>
     </nav>
   );
 };

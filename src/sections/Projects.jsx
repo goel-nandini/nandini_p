@@ -1,81 +1,150 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { HiOutlineExternalLink, HiOutlineCode } from 'react-icons/hi';
-import SectionWrapper from '../components/SectionWrapper';
-import AnimatedHeading from '../components/AnimatedHeading';
-import GlassCard from '../components/GlassCard';
-import Button from '../components/Button';
+import React, { useEffect, useRef } from 'react';
 
 const projects = [
   {
-    title: "Mentor Map",
-    tech: ["React", "TypeScript", "TailwindCSS"],
-    description: "A mentor discovery platform featuring dynamic dashboards and forms. Integrated with powerful REST APIs for seamless user match-making and profile management.",
-    github: "#", // Replace with real link wrapper
-    live: "#",   // Replace with real link wrapper
+    emoji: '🏆',
+    title: 'Smart India Hackathon — AI Portal',
+    desc: 'Award-winning national hackathon project. Built a government grievance AI system with NLP-based auto-routing and real-time dashboards.',
+    tech: ['React', 'Node.js', 'Python', 'NLP', 'MongoDB'],
+    live: '#',
+    github: 'https://github.com/goel-nandini',
   },
   {
-    title: "TES v4",
-    tech: ["React", "JavaScript", "TailwindCSS"],
-    description: "A highly responsive web application focused on clean UI design and an optimized component structure, delivering a fast and intuitive user experience.",
-    github: "#", // Replace with real link wrapper
-    live: "#",   // Replace with real link wrapper
-  }
+    emoji: '🤖',
+    title: 'AI Study Assistant',
+    desc: 'An intelligent chatbot that generates quizzes, summaries, and flashcards from uploaded PDFs using OpenAI API.',
+    tech: ['React', 'OpenAI', 'Flask', 'TailwindCSS'],
+    live: '#',
+    github: 'https://github.com/goel-nandini',
+  },
+  {
+    emoji: '🛒',
+    title: 'EcoShop — Sustainable Marketplace',
+    desc: 'Full-stack e-commerce platform for eco-friendly products with cart, wishlist, order tracking, and payment integration.',
+    tech: ['Next.js', 'MongoDB', 'Stripe', 'Redux'],
+    live: '#',
+    github: 'https://github.com/goel-nandini',
+  },
+  {
+    emoji: '💬',
+    title: 'Real-time Chat App',
+    desc: 'WhatsApp-style chat app with rooms, emoji reactions, file sharing, and end-to-end encryption using Socket.io.',
+    tech: ['React', 'Socket.io', 'Node.js', 'Express'],
+    live: '#',
+    github: 'https://github.com/goel-nandini',
+  },
+  {
+    emoji: '📊',
+    title: 'Data Visualizer Dashboard',
+    desc: 'Interactive dashboard for uploading CSV/Excel files and generating beautiful charts with filters and export options.',
+    tech: ['React', 'D3.js', 'Python', 'FastAPI'],
+    live: '#',
+    github: 'https://github.com/goel-nandini',
+  },
+  {
+    emoji: '🎨',
+    title: 'Portfolio Generator',
+    desc: 'A drag-and-drop portfolio builder that lets developers generate their own custom portfolio sites and deploy with one click.',
+    tech: ['React', 'Vite', 'Netlify API', 'localStorage'],
+    live: '#',
+    github: 'https://github.com/goel-nandini',
+  },
 ];
 
-const Projects = () => {
+const ProjectCard = ({ project, idx }) => {
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          setTimeout(() => entries[0].target.classList.add('visible'), idx * 100);
+          entries[0].target.classList.add('visible');
+        }
+      },
+      { threshold: 0.15 }
+    );
+    if (cardRef.current) observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, [idx]);
+
   return (
-    <SectionWrapper id="projects">
-      <AnimatedHeading subtitle="My recent work" title="Featured Projects" />
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        {projects.map((project, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, scale: 0.9, y: 30 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: idx * 0.2 }}
-            whileHover={{ y: -10 }}
-            className="group"
-          >
-            <GlassCard className="h-full flex flex-col justify-between border-t-[3px] border-t-transparent hover:border-t-primary transition-all duration-300">
-              
-              <div>
-                {/* Project Header */}
-                <h3 className="text-2xl md:text-3xl font-bold mb-3 text-white group-hover:text-primary transition-colors duration-300">
-                  {project.title}
-                </h3>
-                
-                {/* Tech Stack Bubbles */}
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tech.map(t => (
-                    <span key={t} className="text-xs md:text-sm bg-glass border border-glassBorder px-3 py-1 rounded-full text-gray-300 shadow-[0_0_5px_rgba(255,255,255,0.05)]">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Description */}
-                <p className="text-gray-400 leading-relaxed mb-8 text-sm md:text-base">
-                  {project.description}
-                </p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap gap-4 mt-auto">
-                <Button variant="outline" className="flex items-center gap-2 px-4 py-2 text-sm w-full sm:w-auto hover:bg-white hover:text-black">
-                  <HiOutlineExternalLink className="w-5 h-5" /> Live Demo
-                </Button>
-                <Button variant="ghost" className="flex items-center gap-2 px-4 py-2 text-sm border border-glassBorder hover:border-white w-full sm:w-auto group-hover:bg-glass">
-                  <HiOutlineCode className="w-5 h-5" /> GitHub
-                </Button>
-              </div>
-            </GlassCard>
-          </motion.div>
-        ))}
+    <div
+      className="project-card fade-in-up"
+      ref={cardRef}
+      id={`project-card-${idx}`}
+    >
+      {/* Image/emoji banner */}
+      <div className="project-img-placeholder" style={{ fontSize: '3.5rem' }}>
+        {project.emoji}
       </div>
-    </SectionWrapper>
+
+      <div className="project-body">
+        <div className="project-title">{project.title}</div>
+        <div className="project-desc">{project.desc}</div>
+
+        <div className="project-badges">
+          {project.tech.map(t => (
+            <span key={t} className="badge">{t}</span>
+          ))}
+        </div>
+
+        <div className="project-actions">
+          <a
+            href={project.live}
+            className="project-btn project-btn-primary"
+            onClick={e => e.preventDefault()}
+            id={`project-live-${idx}`}
+          >
+            Live Demo ↗
+          </a>
+          <a
+            href={project.github}
+            className="project-btn project-btn-outline"
+            target="_blank"
+            rel="noopener noreferrer"
+            id={`project-github-${idx}`}
+          >
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Projects = () => {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.querySelectorAll('.fade-in-up').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 120);
+            });
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section className="section" id="projects" ref={sectionRef}>
+      <div className="fade-in-up">
+        <p className="section-tag">— Featured Work</p>
+        <h2 className="section-title">Projects</h2>
+        <div className="section-divider" />
+      </div>
+
+      <div className="projects-grid">
+        {projects.map((p, i) => <ProjectCard key={i} project={p} idx={i} />)}
+      </div>
+    </section>
   );
 };
 

@@ -1,56 +1,136 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import SectionWrapper from '../components/SectionWrapper';
-import AnimatedHeading from '../components/AnimatedHeading';
-import GlassCard from '../components/GlassCard';
+import React, { useEffect, useRef } from 'react';
 
 const experiences = [
   {
-    role: "Frontend Intern",
-    company: "E-Cell ABESEC",
-    duration: "Present", // Or you can adjust this date
-    description: "Improved the official E-Cell website by implementing new features and optimizing performance, which significantly improved page load time and user experience."
-  }
+    year: '2024 — Present',
+    role: 'Smart India Hackathon Winner 🏆',
+    org: 'Government of India',
+    desc: 'Led a team of 6 to build an AI-powered solution that won first place at Smart India Hackathon 2024. Solved a real government problem using NLP and React.',
+  },
+  {
+    year: '2023 — 2024',
+    role: 'Full Stack Developer Intern',
+    org: 'Tech Startup (Remote)',
+    desc: 'Built responsive web dashboards using React and Node.js. Integrated REST APIs and improved UI performance by 40%.',
+  },
+  {
+    year: '2023',
+    role: 'Open Source Contributor',
+    org: 'GitHub community',
+    desc: 'Contributed to open source projects during Hacktoberfest, submitted 10+ merged PRs across React and Python projects.',
+  },
 ];
 
-const Experience = () => {
+const education = [
+  {
+    year: '2022 — 2026',
+    role: 'B.Tech in Computer Science',
+    org: 'VIT Bhopal University',
+    desc: 'Specialization in AI & Machine Learning. CGPA: 8.5/10. Core cs, DSA, OS, DBMS.',
+  },
+  {
+    year: '2020 — 2022',
+    role: 'Higher Secondary (PCM + CS)',
+    org: 'Delhi Public School',
+    desc: 'Scored 95.4% in 12th boards. School topper in Computer Science.',
+  },
+];
+
+const TimelineItem = ({ item, idx }) => {
+  const itemRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          entries[0].target.classList.add('visible');
+        }
+      },
+      { threshold: 0.25 }
+    );
+    if (itemRef.current) observer.observe(itemRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <SectionWrapper id="experience">
-      <AnimatedHeading subtitle="My Journey" title="Experience" />
-
-      <div className="max-w-4xl mx-auto relative border-l border-glassBorder ml-4 md:ml-auto">
-        {experiences.map((exp, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.2 }}
-            className="mb-10 ml-8 md:ml-12 relative"
-          >
-            {/* Timeline dot */}
-            <span className="absolute -left-10 md:-left-14 top-4 flex h-4 w-4 items-center justify-center rounded-full bg-primary shadow-[0_0_10px_#00ffcc]">
-              <span className="h-2 w-2 rounded-full bg-black"></span>
-            </span>
-
-            <GlassCard hoverEffect={false}>
-              <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
-                <div>
-                  <h3 className="text-xl md:text-2xl font-bold text-white">{exp.role}</h3>
-                  <h4 className="text-lg text-primary font-medium">{exp.company}</h4>
-                </div>
-                <div className="text-sm border border-glassBorder rounded-full px-4 py-1 text-gray-300 w-fit">
-                  {exp.duration}
-                </div>
-              </div>
-              <p className="text-gray-400 leading-relaxed text-sm md:text-base">
-                {exp.description}
-              </p>
-            </GlassCard>
-          </motion.div>
-        ))}
+    <div className="timeline-item" ref={itemRef} style={{ transitionDelay: `${idx * 0.1}s` }}>
+      <div className="timeline-dot" />
+      <div className="glass-card" style={{ padding: '1.25rem 1.5rem' }}>
+        <div className="timeline-year">{item.year}</div>
+        <div className="timeline-role">{item.role}</div>
+        <div className="timeline-org">📍 {item.org}</div>
+        <div className="timeline-desc">{item.desc}</div>
       </div>
-    </SectionWrapper>
+    </div>
+  );
+};
+
+const Experience = () => {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.querySelectorAll('.fade-in-up').forEach((el, i) => {
+              setTimeout(() => el.classList.add('visible'), i * 150);
+            });
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section className="section" id="experience" ref={sectionRef}
+      style={{ background: 'rgba(108,99,255,0.03)' }}
+    >
+      <div className="fade-in-up">
+        <p className="section-tag">— My Journey</p>
+        <h2 className="section-title">Experience & Education</h2>
+        <div className="section-divider" />
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
+        {/* Experience */}
+        <div>
+          <h3 className="fade-in-up" style={{
+            fontSize: 'var(--fs-sub)', fontWeight: 700, marginBottom: '2rem',
+            color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem'
+          }}>
+            💼 Experience
+          </h3>
+          <div className="timeline">
+            {experiences.map((item, i) => <TimelineItem key={i} item={item} idx={i} />)}
+          </div>
+        </div>
+
+        {/* Education */}
+        <div>
+          <h3 className="fade-in-up" style={{
+            fontSize: 'var(--fs-sub)', fontWeight: 700, marginBottom: '2rem',
+            color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem'
+          }}>
+            🎓 Education
+          </h3>
+          <div className="timeline">
+            {education.map((item, i) => <TimelineItem key={i} item={item} idx={i} />)}
+          </div>
+        </div>
+      </div>
+
+      {/* Responsive for mobile */}
+      <style>{`
+        @media (max-width: 768px) {
+          #experience .section > div:last-child,
+          #experience > div[style] { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </section>
   );
 };
 

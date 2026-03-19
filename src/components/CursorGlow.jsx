@@ -59,15 +59,19 @@ const CursorGlow = () => {
       
       {/* Giant underlying blurred aura */}
       <motion.div
-        className="fixed top-0 left-0 w-72 h-72 bg-primary/10 rounded-full blur-[100px] z-0 pointer-events-none"
+        className="fixed top-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-[120px] z-[50] pointer-events-none mix-blend-screen"
+        style={{
+          x: mousePosition.x - 192,
+          y: mousePosition.y - 192,
+        }}
         animate={{
-          x: mousePosition.x - 144,
-          y: mousePosition.y - 144,
+          scale: [1, 1.1, 1],
+          opacity: [0.3, 0.6, 0.3],
         }}
         transition={{
-          type: 'tween',
-          ease: 'circOut',
-          duration: 0.15,
+          repeat: Infinity,
+          duration: 3,
+          ease: 'easeInOut',
         }}
       />
     </div>
