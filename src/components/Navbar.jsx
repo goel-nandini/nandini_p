@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import logoImg from '../assets/logo.jpg';
 
 const navLinks = [
   { label: 'Home', href: '#home' },
@@ -23,7 +24,7 @@ const Navbar = ({ theme, toggleTheme }) => {
     <nav className="navbar">
       {/* Logo */}
       <div className="navbar-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-        NG.
+        <img src={logoImg} alt="Logo" className="navbar-logo-img" />
       </div>
 
       {/* Links */}

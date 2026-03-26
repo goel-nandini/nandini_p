@@ -125,13 +125,27 @@ body {
 }
 
 .navbar-logo {
-  font-size: 1.5rem;
-  font-weight: 800;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  padding: 2px;
+}
+
+.navbar-logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+  will-change: transform, filter;
+  /* Ensure crisp rendering */
+  image-rendering: -webkit-optimize-contrast;
+  border-radius: 50%; /* Make the background blend softly */
+}
+
+/* Neon glow hover effect matching the aesthetic */
+.navbar-logo:hover .navbar-logo-img {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.4)) drop-shadow(0 0 4px rgba(108, 99, 255, 0.6));
 }
 
 .navbar-links {
