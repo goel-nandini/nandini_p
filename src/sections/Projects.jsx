@@ -33,21 +33,6 @@ const projects = [
     github: 'https://github.com/goel-nandini',
     featured: false,
   },
-  {
-    id: 2,
-    icon: '⚡',
-    title: 'DevDash',
-    tagline: 'A unified developer productivity dashboard.',
-    desc: 'Centralised hub for tracking GitHub contributions, managing tasks, and monitoring API health — all in one glassmorphic interface with real‑time data sync.',
-    tech: ['React', 'Node.js', 'MongoDB', 'Socket.io', 'Chart.js'],
-    gradFrom: '#F59E0B',
-    gradMid: '#EF4444',
-    gradTo: '#8B5CF6',
-    glowColor: 'rgba(245,158,11,0.5)',
-    live: '#',
-    github: 'https://github.com/goel-nandini',
-    featured: false,
-  },
 ];
 
 /* ─── Animated gradient angle (CSS custom property trick) ───── */

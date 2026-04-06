@@ -2,31 +2,22 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const educationData = [
   {
-    year: '2021 – 2025',
-    degree: 'Bachelor of Engineering',
-    field: 'Computer Science & Engineering',
-    institution: 'Chandigarh University',
-    location: 'Mohali, Punjab',
-    cgpa: '7.56',
+    year: '2023 – 2027',
+    degree: 'Bachelor of Technology',
+    field: 'Computer Science – AIML',
+    institution: 'ABES Engineering College',
+    location: 'Ghaziabad, India',
+    cgpa: '8.0 CGPA',
     icon: '🎓',
   },
   {
-    year: '2019 – 2021',
-    degree: 'Higher Secondary Education',
-    field: 'Science (PCM + Computer Science)',
-    institution: 'Kendriya Vidyalaya No.1',
-    location: 'Agra, Uttar Pradesh',
-    cgpa: '89.2%',
+    year: '2022 – 2023',
+    degree: 'Senior Secondary',
+    field: 'Science Stream',
+    institution: 'Silver Bells Public School',
+    location: 'Shamli, India',
+    cgpa: '12th Board',
     icon: '📚',
-  },
-  {
-    year: '2018 – 2019',
-    degree: 'Secondary Education',
-    field: 'All Subjects',
-    institution: 'Kendriya Vidyalaya No.1',
-    location: 'Agra, Uttar Pradesh',
-    cgpa: '84.6%',
-    icon: '🏫',
   },
 ];
 

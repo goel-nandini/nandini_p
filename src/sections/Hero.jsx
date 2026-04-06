@@ -95,8 +95,8 @@ const Hero = () => {
           <a
             id="download-resume-btn"
             className="btn btn-outline"
-            href="#"
-            onClick={e => e.preventDefault()}
+            href="/Nandini_Goel_Resume.pdf"
+            download="Nandini_Goel_Resume.pdf"
             style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
           >
             ⬇ Download Resume

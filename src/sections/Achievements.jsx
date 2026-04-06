@@ -7,36 +7,36 @@ const featured = {
   title: 'Smart India Hackathon 2024',
   year: '2024',
   description:
-    'Competed against 10,000+ teams nationwide and secured 1st place by building an AI-driven smart governance platform that addressed real-world challenges proposed by Indian government ministries.',
+    'Won a national-level hackathon with 385+ entries organized by the Ministry of Education, Govt. of India — building an impactful solution that stood out across hundreds of competing teams.',
 };
 
 const cards = [
   {
     icon: '🥈',
-    title: 'Internal Hackathon — ABESEC',
-    year: '2023',
+    title: 'HACK-O-VERSE — ABES Engineering College',
+    year: '2024',
     tag: 'Runner-Up',
     tagColor: 'silver',
     description:
-      'Built a responsive full-stack web application under extreme time constraints, finishing 2nd among 80+ participating teams.',
+      'Secured 2nd place out of 100+ competing teams at the HACK-O-VERSE internal hackathon, delivering a full-stack solution under tight deadline pressure.',
   },
   {
     icon: '🚀',
-    title: 'HCL-GUVI Hackathon',
-    year: '2023',
+    title: 'HCL-GUVI Hackathon — ABES Engineering College',
+    year: '2024',
     tag: 'Top 20 Finalist',
     tagColor: 'blue',
     description:
-      'Ranked in the top 20 teams nationwide for delivering a highly scalable cloud-based tech solution.',
+      'Ranked among top 20 teams out of 450+ participants — demonstrating strong problem-solving, teamwork, and technical execution under competition conditions.',
   },
   {
-    icon: '⭐',
-    title: 'Dean\'s Excellence List',
-    year: '2022',
-    tag: 'Top Performer',
+    icon: '☁️',
+    title: 'Certified Cloud Computing Practitioner',
+    year: 'Udemy',
+    tag: 'Certified',
     tagColor: 'purple',
     description:
-      'Recognized for outstanding academic performance and consistent contribution to technical projects throughout the semester.',
+      'Earned a professional certification with practical expertise in cloud infrastructure, virtualization, and scalability principles.',
   },
 ];
 

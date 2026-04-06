@@ -2,9 +2,8 @@ import React, { useRef, useEffect, useState } from 'react';
 
 const socials = [
   { icon: '🐙', label: 'GitHub', href: 'https://github.com/goel-nandini' },
-  { icon: '💼', label: 'LinkedIn', href: '#' },
-  { icon: '🐦', label: 'Twitter', href: '#' },
-  { icon: '📧', label: 'Email', href: 'mailto:nandini@email.com' },
+  { icon: '💼', label: 'LinkedIn', href: 'https://www.linkedin.com/in/nandini-goel-' },
+  { icon: '📧', label: 'Email', href: 'mailto:nandinigoel.0207@gmail.com' },
 ];
 
 const Contact = () => {
@@ -78,9 +77,9 @@ const Contact = () => {
           {/* Contact info pills */}
           <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             {[
-              { icon: '📧', text: 'nandini@email.com' },
-              { icon: '📍', text: 'India' },
-              { icon: '⏰', text: 'Available for freelance & internships' },
+              { icon: '📧', text: 'nandinigoel.0207@gmail.com' },
+              { icon: '📍', text: 'Ghaziabad, India' },
+              { icon: '⏰', text: 'Open to internships & full-time roles' },
             ].map(item => (
               <div key={item.text} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
