@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+
+// Lazy load 3D background for performance
+const Hero3D = React.lazy(() => import('../components/Hero3D'));
 
 const roles = [
-  'React Developer',
-  'AI / ML Enthusiast',
-  'Hackathon Winner 🏆',
+  'Full Stack Developer',
   'Problem Solver',
-  'Creative Coder',
+  'Tech Enthusiast'
 ];
 
 const Hero = () => {
@@ -13,25 +15,33 @@ const Hero = () => {
   const [displayed, setDisplayed] = useState('');
   const [deleting, setDeleting] = useState(false);
   const [charIdx, setCharIdx] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
+  // Typewriter effect logic
   useEffect(() => {
     const current = roles[roleIdx];
     let timeout;
-
     if (!deleting && charIdx < current.length) {
       timeout = setTimeout(() => setCharIdx(c => c + 1), 60);
     } else if (!deleting && charIdx === current.length) {
-      timeout = setTimeout(() => setDeleting(true), 1800);
+      timeout = setTimeout(() => setDeleting(true), 2000);
     } else if (deleting && charIdx > 0) {
-      timeout = setTimeout(() => setCharIdx(c => c - 1), 35);
+      timeout = setTimeout(() => setCharIdx(c => c - 1), 30);
     } else if (deleting && charIdx === 0) {
       setDeleting(false);
       setRoleIdx(r => (r + 1) % roles.length);
     }
-
     setDisplayed(current.slice(0, charIdx));
     return () => clearTimeout(timeout);
   }, [charIdx, deleting, roleIdx]);
+
+  // Mobile detection for 3D elements
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const scrollToProjects = () => {
     document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' });
@@ -41,13 +51,63 @@ const Hero = () => {
     document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  return (
-    <section className="hero-section" id="home">
-      {/* Ambient orbs */}
-      <div className="hero-orb1" />
-      <div className="hero-orb2" />
+  // Interactive mouse tilt effect
+  const cardRef = useRef(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), { stiffness: 150, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-10, 10]), { stiffness: 150, damping: 20 });
 
-      {/* Grid overlay */}
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+  
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2, delayChildren: 0.1 }
+    }
+  };
+
+  const childVariant = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  };
+
+  return (
+    <section className="hero-section" id="home" style={{ position: 'relative' }}>
+      
+      {/* 3D Animated Background - Lazy Loaded */}
+      {!isMobile && (
+        <Suspense fallback={null}>
+          <Hero3D />
+        </Suspense>
+      )}
+
+      {/* Ambient orbs mapped with framer emotion to add slight parallax */}
+      <motion.div 
+        className="hero-orb1"
+        animate={{ y: [0, -30, 0], x: [0, 20, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div 
+        className="hero-orb2" 
+        animate={{ y: [0, 30, 0], x: [0, -20, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+      />
+
       <div style={{
         position: 'absolute', inset: 0,
         backgroundImage: 'radial-gradient(rgba(108,99,255,0.1) 1px, transparent 1px)',
@@ -56,59 +116,105 @@ const Hero = () => {
         opacity: 0.7
       }} />
 
-      <div className="hero-content">
-        <p className="hero-greeting" style={{ animationDelay: '0.1s' }}>
-          ✦ Welcome to my Portfolio
-        </p>
+      {/* Interactive Glassmorphism Card Wrapper */}
+      <motion.div 
+        ref={cardRef}
+        className="hero-content"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
+          background: "rgba(255, 255, 255, 0.02)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          padding: isMobile ? "2rem 1.5rem" : "4rem",
+          borderRadius: "32px",
+          border: "1px solid rgba(255, 255, 255, 0.05)",
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+          zIndex: 10
+        }}
+      >
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+          style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
+          <motion.p variants={childVariant} className="hero-greeting" style={{ translateZ: 20 }}>
+            ✦ Welcome to my Portfolio
+          </motion.p>
 
-        <h1 className="hero-name" style={{ animation: 'fadeInUp 0.8s ease 0.2s both' }}>
-          Hi, I'm <span className="grad">Nandini Goel</span>
-        </h1>
+          <motion.h1 variants={childVariant} className="hero-name" style={{ translateZ: 40 }}>
+            Hi, I'm <span className="grad">Nandini Goel</span>
+          </motion.h1>
 
-        <p className="hero-subtitle" style={{ animation: 'fadeInUp 0.8s ease 0.4s both' }}>
-          Creative Developer · Problem Solver · Innovator
-        </p>
+          <motion.p variants={childVariant} className="hero-subtitle" style={{ translateZ: 30 }}>
+            Creative Developer · Problem Solver · Innovator
+          </motion.p>
 
-        {/* Typing animation */}
-        <div className="hero-typed-wrap" style={{ animation: 'fadeInUp 0.8s ease 0.5s both' }}>
-          &gt;&nbsp;
-          <span>{displayed}</span>
-          <span style={{
-            display: 'inline-block',
-            width: '2px',
-            height: '1.1em',
-            background: 'var(--grad-end)',
-            marginLeft: '2px',
-            verticalAlign: 'middle',
-            animation: 'pulse 1s step-start infinite',
-          }} />
-        </div>
+          <motion.div variants={childVariant} className="hero-typed-wrap" style={{ translateZ: 20, marginBottom: '1.5rem' }}>
+            &gt;&nbsp;
+            <span>{displayed}</span>
+            <motion.span 
+              animate={{ opacity: [1, 0] }} 
+              transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+              style={{
+                display: 'inline-block',
+                width: '3px',
+                height: '1.1em',
+                background: 'var(--grad-end)',
+                marginLeft: '4px',
+                verticalAlign: 'middle',
+              }} 
+            />
+          </motion.div>
 
-        {/* Buttons */}
-        <div className="hero-buttons" style={{ animation: 'fadeInUp 0.8s ease 0.7s both' }}>
-          <button id="view-projects-btn" className="btn btn-primary" onClick={scrollToProjects}>
-            View Projects ↗
-          </button>
-          <button id="contact-me-btn" className="btn btn-outline" onClick={scrollToContact}>
-            Contact Me
-          </button>
-          <a
-            id="download-resume-btn"
-            className="btn btn-outline"
-            href="/Nandini_Goel_Resume.pdf"
-            download="Nandini_Goel_Resume.pdf"
-            style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
-          >
-            ⬇ Download Resume
-          </a>
-        </div>
-      </div>
+          <motion.div variants={childVariant} className="hero-buttons" style={{ translateZ: 50 }}>
+            <motion.button 
+              id="view-projects-btn" 
+              className="btn btn-primary" 
+              onClick={scrollToProjects}
+              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(108, 99, 255, 0.5)" }}
+              whileTap={{ scale: 0.95 }}
+            >
+              View Projects ↗
+            </motion.button>
+            <motion.button 
+              id="contact-me-btn" 
+              className="btn btn-outline" 
+              onClick={scrollToContact}
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(108, 99, 255, 0.1)" }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Contact Me
+            </motion.button>
+            <motion.a
+              id="download-resume-btn"
+              className="btn btn-outline"
+              href="/Nandini_Goel_Resume.pdf"
+              download="Nandini_Goel_Resume.pdf"
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(108, 99, 255, 0.1)" }}
+              whileTap={{ scale: 0.95 }}
+              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+            >
+              ⬇ Download Resume
+            </motion.a>
+          </motion.div>
+        </motion.div>
+      </motion.div>
 
       {/* Scroll hint */}
-      <div className="hero-scroll-hint">
+      <motion.div 
+        className="hero-scroll-hint"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 1 }}
+      >
         <div className="arrow" />
         <span>Scroll</span>
-      </div>
+      </motion.div>
     </section>
   );
 };
