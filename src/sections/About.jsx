@@ -4,11 +4,9 @@ import aboutImg from '../assets/about.jpeg';
 
 /* ─── Floating decorative icons ─────────────────────────────── */
 const FLOATERS = [
-  { icon: '⚛️', top: '-18px', left: '-10px',  delay: 0,   dur: 3.2 },
-  { icon: '🤖', top: '10px',  right: '-18px', delay: 0.8, dur: 4.0 },
-  { icon: '✨', bottom: '0px',  left: '-20px', delay: 1.4, dur: 3.6 },
-  { icon: '💻', bottom: '-14px',right: '-6px', delay: 0.4, dur: 4.4 },
-  { icon: '🚀', top: '42%',   left: '-30px',  delay: 1.0, dur: 5.0 },
+  { icon: '🧠', top: '10px', left: '-15px',  delay: 0,   dur: 3.2 },
+  { icon: '👨‍💻', top: '25px', right: '-15px', delay: 0.8, dur: 4.0 },
+  { icon: '🚀', bottom: '40px', left: '-25px', delay: 1.4, dur: 3.6 },
 ];
 
 /* ─── Cycling keywords ───────────────────────────────────────── */
@@ -98,7 +96,8 @@ const CyclingRole = () => {
   );
 };
 
-/* ─── Visual Card (Left) ─────────────────────────────────────── */
+/* ─── Visual Card (Left) ─── */
+/* ─── Visual Card (Left) ─── */
 const VisualCard = () => {
   const cardRef = useRef(null);
   const rotateX = useSpring(0, { stiffness: 150, damping: 18 });
@@ -109,8 +108,8 @@ const VisualCard = () => {
     const rect = cardRef.current.getBoundingClientRect();
     const cx = e.clientX - rect.left - rect.width / 2;
     const cy = e.clientY - rect.top - rect.height / 2;
-    rotateX.set(-(cy / rect.height) * 14);
-    rotateY.set((cx / rect.width) * 14);
+    rotateX.set(-(cy / rect.height) * 20); // Tilt intensity
+    rotateY.set((cx / rect.width) * 20);
   }, [rotateX, rotateY]);
 
   const handleMouseLeave = () => { rotateX.set(0); rotateY.set(0); };
@@ -122,70 +121,37 @@ const VisualCard = () => {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
     >
-      {/* Glow orbs behind card */}
-      <div className="ab-glow-orb ab-glow-orb-1" />
-      <div className="ab-glow-orb ab-glow-orb-2" />
-
-      {/* 3D tilt card */}
+      {/* 3D tilt tracking container for purely the image */}
       <motion.div
         ref={cardRef}
-        className="ab-profile-card"
-        style={{ rotateX, rotateY, transformStyle: 'preserve-3d', perspective: '1000px' }}
+        style={{ rotateX, rotateY, transformStyle: 'preserve-3d', perspective: '1200px' }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Animated gradient border */}
-        <div className="ab-card-border" />
+        <div className="ab-direct-img-wrap">
+          <div className="ab-direct-img-inner">
+            <img
+              src={aboutImg}
+              alt="Nandini Goel"
+              className="ab-direct-img"
+            />
+          </div>
 
-        {/* Avatar */}
-        <div className="ab-avatar-wrap">
-          <img
-            src={aboutImg}
-            alt="Nandini Goel"
-            className="ab-avatar-img"
-          />
-          {/* Inner glow ring */}
-          <div className="ab-avatar-ring" />
+          {/* Small animated floating icons orbiting the image */}
+          {FLOATERS.map((f, i) => (
+            <motion.span
+              key={i}
+              className="ab-floater"
+              style={{ position: 'absolute', top: f.top, left: f.left, right: f.right, bottom: f.bottom, translateZ: 50 }}
+              animate={{ y: [0, -15, 0], rotate: [0, 8, -8, 0] }}
+              transition={{ duration: f.dur, repeat: Infinity, ease: 'easeInOut', delay: f.delay }}
+            >
+              {f.icon}
+            </motion.span>
+          ))}
         </div>
-
-        {/* Name badge */}
-        <div className="ab-name-badge">
-          <span className="ab-name-badge-dot" />
-          <span>Nandini Goel</span>
-        </div>
-
-        {/* Floating decorative icons */}
-        {FLOATERS.map((f, i) => (
-          <motion.span
-            key={i}
-            className="ab-floater"
-            style={{ top: f.top, left: f.left, right: f.right, bottom: f.bottom }}
-            animate={{ y: [0, -12, 0] }}
-            transition={{ duration: f.dur, repeat: Infinity, ease: 'easeInOut', delay: f.delay }}
-          >
-            {f.icon}
-          </motion.span>
-        ))}
-
-        {/* Corner sparkle */}
-        <motion.div
-          className="ab-sparkle"
-          animate={{ rotate: 360, scale: [0.8, 1.2, 0.8] }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
-        />
-      </motion.div>
-
-      {/* Location chip */}
-      <motion.div
-        className="ab-location-chip"
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.6, duration: 0.5 }}
-      >
-        <span>📍</span>
-        <span>Ghaziabad, India</span>
       </motion.div>
     </motion.div>
   );
