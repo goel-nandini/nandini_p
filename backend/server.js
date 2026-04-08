@@ -5,6 +5,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const resumeRoutes = require('./routes/resumeRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,10 +18,16 @@ app.use(cors({
 }));
 
 // Express built-in middleware for parsing JSON
-app.use(express.json());
+app.use(express.json({ limit: '10kb' })); // Limit payload size for security
 
 // Routes
 app.use('/api/resume', resumeRoutes);
+app.use('/api/chat', chatRoutes);
+
+// Health check
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: 'ok', message: '🟢 Portfolio backend is running' });
+});
 
 // Database Connection
 mongoose
@@ -34,6 +41,7 @@ mongoose
     // Only start server after DB connects
     app.listen(PORT, () => {
       console.log(`🚀 Backend Server running independently on port ${PORT}`);
+      console.log(`🤖 Chat API available at: http://localhost:${PORT}/api/chat`);
     });
   })
   .catch((err) => {

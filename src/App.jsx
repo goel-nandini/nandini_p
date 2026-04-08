@@ -12,6 +12,7 @@ import Achievements from './sections/Achievements';
 import Projects from './sections/Projects';
 import Contact from './sections/Contact';
 import Footer from './components/Footer';
+import ChatBot from './components/ChatBot';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -56,6 +57,7 @@ function App() {
             <Contact />
           </main>
           <Footer />
+          <ChatBot />
         </div>
       )}
     </div>
