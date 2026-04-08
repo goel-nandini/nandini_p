@@ -195,6 +195,10 @@ const Hero = () => {
               className="btn btn-outline"
               href="/Nandini_Goel_Resume.pdf"
               download="Nandini_Goel_Resume.pdf"
+              onClick={() => {
+                fetch('http://localhost:5000/api/resume/download')
+                  .catch(err => console.error('Error tracking download:', err));
+              }}
               whileHover={{ scale: 1.05, backgroundColor: "rgba(108, 99, 255, 0.1)" }}
               whileTap={{ scale: 0.95 }}
               style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}

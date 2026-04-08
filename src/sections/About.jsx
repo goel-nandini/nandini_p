@@ -300,6 +300,10 @@ const About = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
               id="about-download-cv"
+              onClick={() => {
+                fetch('http://localhost:5000/api/resume/download')
+                  .catch(err => console.error('Error tracking download:', err));
+              }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 5v14M5 12l7 7 7-7" />
