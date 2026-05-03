@@ -3,8 +3,8 @@ const { downloadResume, getDownloadLogs } = require('../controllers/resumeContro
 
 const router = express.Router();
 
-// GET /api/resume/download (Public)
-router.get('/download', downloadResume);
+// POST /api/resume/download (Public) - New route for form submission
+router.post('/download', downloadResume);
 
 // GET /api/resume/logs (Optional Admin Route)
 router.get('/logs', getDownloadLogs);

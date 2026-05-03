@@ -12,22 +12,41 @@ const mongoose = require('mongoose');
 
 const resumeDownloadSchema = new mongoose.Schema(
   {
-    // Visitor's IP address (supports both IPv4 and IPv6)
+    name: {
+      type: String,
+      required: [true, 'Name is required'],
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      trim: true,
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        'Please add a valid email',
+      ],
+    },
+    company: {
+      type: String,
+      trim: true,
+    },
+    purpose: {
+      type: String,
+      enum: ['Hiring', 'Collaboration', 'Just Viewing', ''],
+      default: 'Just Viewing',
+    },
+    message: {
+      type: String,
+      trim: true,
+    },
     ipAddress: {
       type: String,
-      required: true,
       trim: true,
     },
-
-    // Full User-Agent string from the request headers
     userAgent: {
       type: String,
-      required: true,
       trim: true,
     },
-
-    // When the download happened (auto-managed by Mongoose with timestamps option)
-    // We expose it explicitly in responses via the createdAt virtual below
   },
   {
     // Automatically adds `createdAt` and `updatedAt` fields

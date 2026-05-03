@@ -13,6 +13,7 @@ import Projects from './sections/Projects';
 import Contact from './sections/Contact';
 import Footer from './components/Footer';
 import ChatBot from './components/ChatBot';
+import ResumeModal from './components/ResumeModal';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -41,6 +42,7 @@ function App() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh', position: 'relative' }}>
       <CustomCursor />
       <ScrollProgress />
+      <ResumeModal />
 
       {!entered ? (
         <LandingPage onEnter={() => setEntered(true)} />

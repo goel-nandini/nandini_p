@@ -52,15 +52,17 @@ const Navbar = ({ theme, toggleTheme }) => {
         </button>
 
         {/* Resume button - desktop */}
-        <a
-          href="#"
+        <button
           className="btn btn-primary"
           style={{ display: 'none', fontSize: '13px', padding: '0.5rem 1.2rem' }}
           id="desktop-resume-btn"
-          onClick={e => e.preventDefault()}
+          onClick={(e) => {
+            e.preventDefault();
+            window.dispatchEvent(new Event('open-resume-modal'));
+          }}
         >
           Resume
-        </a>
+        </button>
 
         {/* Hamburger */}
         <button

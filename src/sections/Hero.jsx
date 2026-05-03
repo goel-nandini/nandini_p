@@ -147,7 +147,7 @@ const Hero = () => {
           </motion.p>
 
           <motion.h1 variants={childVariant} className="hero-name" style={{ translateZ: 40 }}>
-            Hi, I'm <span className="grad">Nandini Goel</span>
+            Hi, I'm <span className="grad">Nandini</span>
           </motion.h1>
 
           <motion.p variants={childVariant} className="hero-subtitle" style={{ translateZ: 30 }}>
@@ -190,21 +190,19 @@ const Hero = () => {
             >
               Contact Me
             </motion.button>
-            <motion.a
+            <motion.button
               id="download-resume-btn"
               className="btn btn-outline"
-              href="/Nandini_Goel_Resume.pdf"
-              download="Nandini_Goel_Resume.pdf"
-              onClick={() => {
-                fetch('http://localhost:5000/api/resume/download')
-                  .catch(err => console.error('Error tracking download:', err));
+              onClick={(e) => {
+                e.preventDefault();
+                window.dispatchEvent(new Event('open-resume-modal'));
               }}
               whileHover={{ scale: 1.05, backgroundColor: "rgba(108, 99, 255, 0.1)" }}
               whileTap={{ scale: 0.95 }}
               style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
             >
               ⬇ Download Resume
-            </motion.a>
+            </motion.button>
           </motion.div>
         </motion.div>
       </motion.div>

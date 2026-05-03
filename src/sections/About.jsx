@@ -293,23 +293,21 @@ const About = () => {
               </svg>
             </motion.button>
 
-            <motion.a
-              href="/Nandini_Goel_Resume.pdf"
-              download="Nandini_Goel_Resume.pdf"
+            <motion.button
               className="ab-btn ab-btn--glow"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
               id="about-download-cv"
-              onClick={() => {
-                fetch('http://localhost:5000/api/resume/download')
-                  .catch(err => console.error('Error tracking download:', err));
+              onClick={(e) => {
+                e.preventDefault();
+                window.dispatchEvent(new Event('open-resume-modal'));
               }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 5v14M5 12l7 7 7-7" />
               </svg>
               <span>Download CV</span>
-            </motion.a>
+            </motion.button>
 
             {/* Social icons */}
             <div className="ab-socials">

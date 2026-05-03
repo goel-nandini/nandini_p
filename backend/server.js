@@ -29,7 +29,32 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: '🟢 Portfolio backend is running' });
 });
 
-// Database Connection
+// New endpoint: Resume Download (UI/Form State Validation Only)
+app.post('/api/resume-download', (req, res) => {
+  const { name, email, company, purpose, message } = req.body;
+
+  // Validate required fields
+  if (!name || !email) {
+    return res.status(400).json({ success: false, error: 'Name and Email are required fields.' });
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ success: false, error: 'Invalid email format.' });
+  }
+
+  // TODO: Connect to MongoDB and send email notifications here
+  console.log('Validated Resume Request:', { name, email, company, purpose, message });
+
+  return res.status(200).json({
+    success: true,
+    message: 'Form validation successful! Form data recorded in logs.'
+  });
+});
+
+// Database Connection (Commented out as per instructions)
+/*
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -37,14 +62,14 @@ mongoose
   })
   .then(() => {
     console.log('✅ MongoDB connected successfully');
-    
-    // Only start server after DB connects
-    app.listen(PORT, () => {
-      console.log(`🚀 Backend Server running independently on port ${PORT}`);
-      console.log(`🤖 Chat API available at: http://localhost:${PORT}/api/chat`);
-    });
   })
   .catch((err) => {
     console.error('❌ MongoDB connection error:', err.message);
-    process.exit(1); // Exit process with failure
   });
+*/
+
+// Start server independently of DB connection
+app.listen(PORT, () => {
+  console.log(`🚀 Backend Server running on port ${PORT}`);
+  console.log(`📝 Resume Form endpoint available at: http://localhost:${PORT}/api/resume-download`);
+});

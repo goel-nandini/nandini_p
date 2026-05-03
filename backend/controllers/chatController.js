@@ -191,18 +191,27 @@ const sendMessage = async (req, res) => {
       });
     }
 
-    // Invalid API key or quota exceeded — give a graceful fallback that doesn't mention config issues
-    if (error?.status === 401 || error?.status === 403) {
-      return res.status(200).json({
-        success: true,
-        reply: "Nandini is a passionate Full Stack Developer skilled in React, Node.js, MongoDB, and more. She has won Smart India Hackathon 2024 and has built multiple production-ready projects. She's actively open to internship and full-time opportunities! 🚀 Feel free to ask me anything specific about her skills or projects.",
-      });
+    // Dynamic Fallback Logic (used when API key is missing or quota is exceeded)
+    // We parse the message for keywords to give a smart, relevant response without revealing config issues
+    const m = (req.body.message || "").toLowerCase();
+    let fallbackReply = "Nandini is a talented Full Stack Developer with hands-on experience in the MERN stack, strong UI design skills, and a proven record of delivering real-world projects. She's currently seeking internship and full-time opportunities. What specific aspect of her profile would you like to know about? 🎯";
+
+    if (m.includes('skill') || m.includes('tech') || m.includes('stack')) {
+      fallbackReply = "Nandini specializes in the MERN stack! Her frontend skills include React.js, TailwindCSS, and Three.js for 3D UI. On the backend, she is proficient with Node.js, Express, and MongoDB. She's also strong in Data Structures & Algorithms.";
+    } else if (m.includes('project') || m.includes('built') || m.includes('work')) {
+      fallbackReply = "She has built several impressive projects including 'Mentor Map' (a mentor-mentee matching platform) and 'TES-4.0' (a responsive technical events platform used by thousands of students). Not to mention this very portfolio website! 🚀";
+    } else if (m.includes('hire') || m.includes('why') || m.includes('fit') || m.includes('intern') || m.includes('job')) {
+      fallbackReply = "Nandini brings a rare combination of strong tech skills and a growth-oriented mindset. She's a fast learner, detail-oriented, and has already won Smart India Hackathon 2024. She's an exceptional candidate and actively open to internship and full-time opportunities!";
+    } else if (m.includes('contact') || m.includes('email') || m.includes('linkedin')) {
+      fallbackReply = "You can easily reach Nandini via email at nandinigoel.0207@gmail.com or connect with her on LinkedIn (linkedin.com/in/nandini-goel-). She's always happy to chat!";
+    } else if (m.includes('education') || m.includes('college') || m.includes('degree')) {
+      fallbackReply = "Nandini is pursuing her B.Tech in Computer Science (AIML specialization) at ABES Engineering College, Ghaziabad (2022–2026). She's highly active in hackathons and coding clubs there.";
     }
 
-    // Generic fallback — still sounds like a confident assistant
     return res.status(200).json({
       success: true,
-      reply: "Nandini is a talented Full Stack Developer with hands-on experience in the MERN stack, strong UI design skills, and a proven record of delivering real-world projects. She's currently seeking internship and full-time opportunities. What specific aspect of her profile would you like to know about? 🎯",
+      reply: fallbackReply,
+      sessionId: req.body.sessionId || 'fallback',
     });
   }
 };

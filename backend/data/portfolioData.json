@@ -1,90 +1,73 @@
 {
-  "name": "Nandini Goel",
+  "name": "Nandini",
   "role": "Full Stack Developer",
-  "bio": "I'm a passionate Full Stack Developer from India pursuing B.Tech in Computer Science (AIML) at ABES Engineering College, Ghaziabad. I build elegant, high-performance web applications using the MERN stack while exploring the frontiers of Artificial Intelligence. I believe great code is both functional and beautiful.",
-  "location": "Ghaziabad, Uttar Pradesh, India",
-  "availability": "Open to internships and full-time opportunities",
-
-  "skills": {
-    "frontend": ["React.js", "JavaScript (ES6+)", "TypeScript", "TailwindCSS", "Framer Motion", "Three.js / R3F", "HTML5", "CSS3", "Bootstrap", "Redux Toolkit"],
-    "backend": ["Node.js", "Express.js", "REST API Design", "JWT Authentication"],
-    "database": ["MongoDB", "Mongoose", "MySQL"],
-    "languages": ["JavaScript", "Core Java", "C++", "Python (basics)"],
-    "tools": ["Git & GitHub", "VS Code", "Figma", "Vercel", "Vite", "Postman", "npm"],
-    "concepts": ["Data Structures & Algorithms (DSA)", "OOP", "MVC Architecture", "Responsive Design", "System Design basics"]
+  "bio": "I'm a passionate Full Stack Developer with strong problem-solving skills, pursuing B.Tech in Computer Science (AIML) at ABES Engineering College. I build elegant, high-performance web applications using modern tech stacks.",
+  "location": "Ghaziabad, India",
+  "contact": {
+    "phone": "+91-9368410715",
+    "email": "nandinigoel.0207@gmail.com",
+    "github": "Github URL",
+    "linkedin": "LinkedIn URL"
   },
-
   "education": [
     {
-      "degree": "B.Tech in Computer Science & Engineering (AIML specialization)",
-      "institution": "ABES Engineering College, Ghaziabad",
-      "duration": "2022 – 2026",
-      "cgpa": "In progress",
-      "highlights": ["AIML specialization", "Active in coding clubs and hackathons"]
-    }
-  ],
-
-  "experience": [
-    {
-      "role": "Smart India Hackathon Winner",
-      "organization": "Government of India — SIH 2024",
-      "duration": "2024",
-      "description": "Won Smart India Hackathon 2024 — the largest national-level hackathon organized by the Government of India. Built a scalable, impactful tech solution as part of a team, competing against thousands of teams nationwide.",
-      "highlights": ["National-level winner", "Built under 36-hour deadline", "Scalable full-stack solution"]
+      "institution": "ABES Engineering College",
+      "degree": "Bachelor of Technology, Computer Science - AIML (8.0 CGPA)",
+      "duration": "2023 – 2027",
+      "location": "Ghaziabad, India",
+      "highlights": ["AIML specialization", "8.0 CGPA"]
     },
     {
-      "role": "Frontend Developer",
-      "organization": "TES (Tech Events Society)",
-      "duration": "2023 – 2024",
-      "description": "Developed and deployed the TES v4.0 web platform — a responsive events site used by thousands of students. Implemented clean UI design and optimized user experience.",
-      "highlights": ["Deployed on Vercel", "Used by thousands of students", "React + TailwindCSS"]
+      "institution": "Silver Bells Public School",
+      "degree": "Senior Secondary",
+      "duration": "2022 – 2023",
+      "location": "Shamli, India",
+      "highlights": []
     }
   ],
-
+  "experience": [
+    {
+      "role": "Front-end Intern",
+      "organization": "E-CELL ABESEC",
+      "duration": "Oct 2025 – Dec 2025",
+      "description": "Enhanced the official E-Cell website by implementing new features and optimising site performance, resulting in a 75% improvement in page load times and increased user engagement, while ensuring intuitive navigation and an updated, modern interface.",
+      "highlights": ["Improved page load times by 75%", "Optimized site performance and updated modern UI"]
+    }
+  ],
   "projects": [
     {
       "name": "Mentor Map",
-      "tagline": "Connecting students with the right mentors — instantly.",
-      "description": "A full-featured platform connecting students and mentees with experienced mentors for career advice, guidance, and networking. Built responsive and accessible UI components with TailwindCSS, dynamically converting Figma designs into pixel-perfect interfaces. Integrated REST APIs for real-time mentor recommendations and discovery flows.",
-      "tech": ["React", "TypeScript", "TailwindCSS", "REST APIs", "Figma"],
-      "github": "https://github.com/goel-nandini",
+      "tech": ["React", "TypeScript", "TailwindCSS"],
+      "duration": "Nov 2024",
+      "description": "Built responsive and accessible UI components using React and TailwindCSS, converting Figma designs into pixel-perfect web interfaces. Implemented dynamic forms, dashboards, and user flows for mentor discovery and profile management with TypeScript-based state handling. Integrated frontend with REST APIs to display real-time mentor recommendations and user data.",
       "status": "Completed",
-      "impact": "Helps students find mentors based on domain, skills, and availability"
+      "impact": "Helps students find mentors with real-time recommendations"
     },
     {
       "name": "TES-4.0",
-      "tagline": "Modern web experience for a technical events platform.",
-      "description": "Developed and deployed TES v4 — a fully responsive web application for ABES Engineering College's technical events society. Used modern frontend technologies with CI/CD pipeline on Vercel. Implemented clean UI design and optimized user experience with efficient component structure.",
-      "tech": ["React", "JavaScript", "TailwindCSS", "Vercel", "CI/CD"],
-      "github": "https://github.com/goel-nandini",
-      "live": "https://tes-4.vercel.app",
-      "status": "Deployed & Live",
-      "impact": "Used by thousands of students for event registrations and announcements"
-    },
-    {
-      "name": "Portfolio Website",
-      "tagline": "A premium 3D interactive developer portfolio.",
-      "description": "An interactive, 3D and glassmorphism-styled personal portfolio website built with React, Framer Motion, and Three.js / React Three Fiber. Features a custom cursor, scroll animations, dark/light theme toggle, and an AI-powered chatbot assistant. Fully responsive and deployed.",
-      "tech": ["React", "Framer Motion", "Three.js", "R3F", "TailwindCSS", "Node.js", "MongoDB", "OpenAI API"],
-      "status": "Live",
-      "impact": "Showcases all skills and projects to recruiters and the developer community"
+      "tech": ["React", "Javascript", "TailwindCSS"],
+      "duration": "Feb 2026",
+      "description": "Developed and deployed TES v4, a responsive web application using modern frontend technologies and hosted on Vercel. Implemented clean UI design and optimized user experience with efficient component structure and responsive layout.",
+      "status": "Deployed",
+      "impact": "Clean UI and optimized user experience"
     }
   ],
-
-  "achievements": [
-    "🏆 Winner — Smart India Hackathon 2024 (National Level, Government of India)",
-    "🚀 Successfully deployed TES-4.0 used by thousands of students",
-    "💡 Built and deployed a 3D interactive developer portfolio with AI chatbot",
-    "📚 Strong foundation in DSA — consistently practices problem solving",
-    "🎓 Pursuing B.Tech in CS (AIML) with active participation in tech communities"
-  ],
-
-  "contact": {
-    "email": "nandinigoel.0207@gmail.com",
-    "github": "https://github.com/goel-nandini",
-    "linkedin": "https://www.linkedin.com/in/nandini-goel-"
+  "skills": {
+    "languages": ["Python", "JavaScript", "TypeScript", "C", "C++"],
+    "frontend": ["React.js", "Redux", "Next.js", "HTML", "CSS", "Tailwind CSS"],
+    "backend": ["Node.js", "Express.js", "REST APIs", "JWT", "API-driven architecture"],
+    "database": ["PostgreSQL", "MongoDB", "Firebase"],
+    "cloudAndDevops": ["AWS", "GCP", "Docker", "CI/CD basics", "Linux"],
+    "tools": ["Git", "GitHub"]
   },
-
+  "achievements": [
+    "Winner — Smart India Hackathon 2024: National-level hackathon (385+ entries) organized by the Ministry of Education, Govt. of India.",
+    "Runner-up — Internal Hackathon, ABES Engineering College: 2nd out of 100+ teams in a HACK-O-VERSE ABESEC hackathon.",
+    "Top-20 — Internal Hackathon, ABES Engineering College: Among top 20 teams out of 450+ teams in a HCL-GUVI hackathon."
+  ],
+  "certifications": [
+    "Certified Cloud Computing Practitioner (Udemy): Developed practical expertise in cloud infrastructure, virtualization, and scalability principles."
+  ],
   "personalityTraits": [
     "Detail-oriented and passionate about clean, scalable code",
     "Strong problem-solver with a competitive DSA mindset",
@@ -92,12 +75,11 @@
     "Team player — proven by hackathon wins",
     "Continuously learning — always exploring new technologies"
   ],
-
   "quickAnswers": {
     "internship": "Yes! Nandini is actively looking for internship and full-time opportunities in Full Stack Development or Frontend Engineering.",
     "resume": "You can download Nandini's resume directly from the portfolio website using the Download Resume button.",
-    "contact": "You can reach Nandini at nandinigoel.0207@gmail.com or connect on LinkedIn at linkedin.com/in/nandini-goel-",
-    "experience_years": "Nandini has been building projects for 2+ years, with hands-on experience in the MERN stack, and has won a national-level hackathon.",
+    "contact": "You can reach Nandini at nandinigoel.0207@gmail.com or call +91-9368410715.",
+    "experience_years": "Nandini has been building projects and gaining experience, notably interning at E-CELL ABESEC and winning the Smart India Hackathon 2024.",
     "dsa": "Nandini has a strong foundation in Data Structures & Algorithms and regularly practices problem-solving on competitive platforms."
   }
 }
